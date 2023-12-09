@@ -29,11 +29,12 @@ export async function POST(request: Request, response: Response) {
         },
       ],
       mode: "payment",
-      success_url: 'http://localhost:3001/book/checkout-success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: "http://localhost:3001",
+      success_url: `http://localhost:3000/book/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: "http://localhost:3000",
     });
 
     return NextResponse.json({ checkout_url: session.url });
+
   } catch (err: any) {
     return NextResponse.json(err.message);
   }

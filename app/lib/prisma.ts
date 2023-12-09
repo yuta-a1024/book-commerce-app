@@ -4,7 +4,7 @@ let prisma: PrismaClient;
 
 // prisma = new PrismaClient();
 
-//シングルトンという書き方
+//シングルトン
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient | undefined;
 };

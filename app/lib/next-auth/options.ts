@@ -5,7 +5,6 @@ import prisma from "../prisma";
 
 
 export const nextAuthOptions: NextAuthOptions = {
-  // Configure one or more authentication providers
   debug: false,
   providers: [
     GithubProvider({

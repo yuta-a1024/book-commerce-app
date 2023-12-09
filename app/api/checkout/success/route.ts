@@ -7,7 +7,6 @@ import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(request: Request, response: Response) {
-  
   const { sessionId } = await request.json();
   
   try {
@@ -33,8 +32,7 @@ export async function POST(request: Request, response: Response) {
       return NextResponse.json({ purchase });
     } else {
       return NextResponse.json({ message: "すでに購入済みです。" });
-    }
-
+    };
   } catch (err) {
     return NextResponse.json(err);
   }

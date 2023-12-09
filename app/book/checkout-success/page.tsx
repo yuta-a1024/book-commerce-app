@@ -9,6 +9,7 @@ const PurchaseSuccess = () => {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   // console.log(sessionId);
+
   useEffect(() => {
     const fetchData = async () => {
       if (sessionId) {
@@ -30,7 +31,6 @@ const PurchaseSuccess = () => {
         }
       }
     };
-
     fetchData();
   }, [sessionId])
 

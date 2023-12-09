@@ -1,8 +1,10 @@
 // "use client";
 
+import { getServerSession } from "next-auth";
 import Book from "./components/Book";
 import { getAllBooks } from "./lib/microcms/client";
-import { BookType } from "./types/types";
+import { BookType, PurchaseBook, User } from "./types/types";
+import { nextAuthOptions } from "./lib/next-auth/options";
 
 // 疑似データ
 // const books = [
@@ -56,10 +58,24 @@ import { BookType } from "./types/types";
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function Home() {
-
   const { contents } = await getAllBooks();
- 
-  // console.log(contents);
+  const session = await getServerSession(nextAuthOptions);
+  const user = session?.user as User;
+
+  let purchaseBookIds: string[];
+  
+  if(user) {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/purchases/${user.id}`,
+      { cache: "no-store" } //SSR
+    );
+    const purchasesData = await response.json();
+    // console.log(purchasesData);
+
+    purchaseBookIds = purchasesData.map((purchaseBook: PurchaseBook) => purchaseBook.bookId);
+    // console.log(purchaseBookIds);
+
+  };
 
 
   return (
@@ -69,7 +85,7 @@ export default async function Home() {
           Book Commerce
         </h2>
         {contents.map((book: BookType) => (
-          <Book key={book.id} book={book} />
+          <Book key={book.id} book={book} isPurchased={purchaseBookIds?.includes(book.id)} />
         ))}
       </main>
     </>
